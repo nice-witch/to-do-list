@@ -36,7 +36,6 @@ export default function Today() {
   const closeTaskModal = () => setIsTaskModalOpen(false);
 
   const saveTask = (saveTask) => {
-    console.log(saveTask);
     const changeTasks = [...tasks];
     changeTasks[selectedTasck.index] = { ...saveTask };
     setTasks(changeTasks);
