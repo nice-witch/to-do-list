@@ -9,13 +9,10 @@ export default function TaskModal({
   saveTask,
   deleteTask,
 }) {
-  const [taskModal, setTaskModal] = useState(task);
-  const [description, setDescription] = useState(task.description && "");
+  const [taskModal, setTaskModal] = useState({ ...task });
 
   const handlerSaveTask = (event) => {
     event.preventDefault();
-    setTaskModal({ ...taskModal, description });
-    console.log(taskModal);
     saveTask(taskModal);
   };
 
@@ -24,12 +21,7 @@ export default function TaskModal({
     deleteTask();
   };
 
-  useMemo(() => {
-    setDescription(task.description && "");
-    return setTaskModal(task);
-  }, [task]);
-
-  // console.log(task);
+  useMemo(() => setTaskModal({ ...task }), [task]);
 
   return (
     <WrapperGrey
@@ -49,13 +41,15 @@ export default function TaskModal({
             }
           />
           <textarea
-            value={description}
+            value={taskModal.description}
             placeholder="Description"
             rows="5"
             className="w-full px-2 py-3 text-neutral-500 border border-neutral-200 rounded-lg bg-transparent focus:outline-0"
-            onChange={(e) => setDescription(e.target.value)}
+            onChange={(e) =>
+              setTaskModal({ ...taskModal, description: e.target.value })
+            }
           >
-            {description}
+            {taskModal.description}
           </textarea>
         </div>
 
