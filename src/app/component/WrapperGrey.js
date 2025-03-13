@@ -20,10 +20,9 @@ export default function WrapperGrey({
             width={20}
             height={20}
             className="cursor-pointer"
+            onClick={() => eventClickIcon()}
           />
         )}
-
-        {/*onClick={() => eventClickIcon}*/}
       </div>
       {children}
     </div>
