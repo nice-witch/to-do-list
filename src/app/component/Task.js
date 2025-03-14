@@ -7,14 +7,9 @@ export default function Task({
   changeTaskComplete,
   openTaskModal,
 }) {
-  const handleCheckbox = (event) => {
-    event.stopPropagation();
-    changeTaskComplete(index);
-  };
+  const handleCheckbox = () => changeTaskComplete(index);
 
-  const handlerOpenTaskModal = () => {
-    openTaskModal(index);
-  };
+  const handlerOpenTaskModal = () => openTaskModal(index);
 
   return (
     <div
@@ -25,6 +20,7 @@ export default function Task({
         <input
           type="checkbox"
           checked={task.completed}
+          onClick={(e) => e.stopPropagation()}
           onChange={handleCheckbox}
         />
         <p className={task.completed ? "line-through text-stone-300" : ""}>
