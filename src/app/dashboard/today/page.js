@@ -1,25 +1,17 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import TaskServer from "@/app/API/TaskServer";
 import TaskModal from "@/app/component/TaskModal";
 import TaskForm from "@/app/component/TaskForm";
 import TaskList from "@/app/component/TaskList";
 
 export default function Today() {
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      title: "Database create for company",
-      completed: false,
-    },
-    {
-      id: 2,
-      title: "Smth task",
-      completed: false,
-    },
-  ]);
-  const addNewTask = (task) => setTasks([...tasks, task]);
+  const [tasks, setTasks] = useState([]);
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
   const [selectedTasck, setSelectedTask] = useState({ task: {}, index: "" });
+  const [isTasksLoading, setIsTasksLoading] = useState(false);
+
+  const addNewTask = (task) => setTasks([...tasks, task]);
 
   const changeTaskComplete = (index) => {
     const changeTasks = [...tasks];
@@ -47,18 +39,33 @@ export default function Today() {
     closeTaskModal();
   };
 
+  async function fetchTasks() {
+    setIsTasksLoading(true);
+    const tasksResponse = await TaskServer.getAll();
+    setTasks(tasksResponse);
+    setIsTasksLoading(false);
+  }
+
+  useEffect(() => {
+    fetchTasks();
+  }, []);
+
   return (
     <div className="flex justify-between h-full items-stretch gap-[21px]">
       <div className="flex justify-between gap-8 grow">
-        <div className="grow">
+        <div className="grow h-full overflow-hidden">
           <h2 className="text-[42px] font-semibold mb-8">Today</h2>
-          <div>
+          <div className="h-full">
             <TaskForm add={addNewTask} />
-            <TaskList
-              tasks={tasks}
-              changeTaskComplete={changeTaskComplete}
-              openTaskModal={openTaskModal}
-            />
+            {isTasksLoading ? (
+              <p>Loading...</p>
+            ) : (
+              <TaskList
+                tasks={tasks}
+                changeTaskComplete={changeTaskComplete}
+                openTaskModal={openTaskModal}
+              />
+            )}
           </div>
         </div>
       </div>
