@@ -16,6 +16,10 @@
 
 body {
   color: #444444;
-  background: #FAFAFA;
+  background: #fafafa;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.task-list {
+  height: calc(100% - 160px);
 }

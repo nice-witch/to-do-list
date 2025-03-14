@@ -6,7 +6,7 @@ export default function TaskList({ tasks, changeTaskComplete, openTaskModal }) {
   }
 
   return (
-    <div>
+    <div className="task-list overflow-auto">
       {tasks.map((task, index) => (
         <Task
           key={task.id}
